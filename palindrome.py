@@ -13,8 +13,23 @@ def func(s):
         if rcc == 0:
             # Check if there is a mismatch in the characters
             if s[i] != s[n-i-1]:
+                # start by edge case where you can seemingly remove both left and right but one of them throws off sequence
+                if (s[i+1] == s[n-i-1]) & (s[i] == s[n-i-2]):
+                    # check if after removing s[i] sequency still works in next step
+                    if s[i+2] == s[n-i-2]:
+                        # remove s[i]
+                        s = s[:i] + s[i+1:]
+                        removed_char = i
+                    # Otherwise try with RHS
+                    else:
+                        if i > 0:
+                            s = s[:n-i-1] + s[n-i:]
+                        else:
+                            s = s[:n-i-1]
+                        removed_char = n-i-1
+                    rcc += 1
                 # Check if removing s[i] solves the issue
-                if s[i+1] == s[n-i-1]:
+                elif s[i+1] == s[n-i-1]:
                     # remove s[i]
                     s = s[:i] + s[i+1:]
                     rcc += 1
@@ -62,3 +77,5 @@ input_test_6 = "baaa"
 print(f"test one results {func(input_test_6)}")
 input_test_7 = "abca"
 print(f"test one results {func(input_test_7)}")
+hard_edge_case = "hgygsrlfcwnssnwcwflrsgygh"
+print(f"test hard edge results {func(hard_edge_case)}")
